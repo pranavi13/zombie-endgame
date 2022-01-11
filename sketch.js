@@ -18,10 +18,10 @@ function preload(){
     explosion=loadSound("explosion.mp3")
 }
 function setup(){
-    canavas= createCanvas(displayWidth,displayHeight);
+    canavas= createCanvas(windowWidth,windowHeight);
     bg=createSprite(displayWidth/2-35,displayHeight/2-45,20,20)
      bg.addImage(backgroundImage)   
-     player=createSprite(displayWidth-800,displayHeight-450,20,20)
+     player=createSprite(displayWidth-1200,displayHeight-450,20,20)
         player.addImage(shooter1)
         
         bg.scale=1
@@ -51,13 +51,18 @@ function draw(){
     
         if(life===3){
 heart3.visible=true
-
+heart2.visible=false
+heart1.visible=false
         }
         if(life===2){
 heart2.visible=true
+heart1.visible=false
+heart3.visible=false
         }
         if(life===1){
-heart1.visible=true           
+heart1.visible=true
+heart3.visible=false
+heart2.visible=false
         }
         if(life===0){
             gameState="lost"
@@ -95,21 +100,23 @@ heart1.visible=true
         lose.play();
     }
     if(zombieGroup.isTouching(bulletGroup)){
-        for(var i=0;izombieGroup.length,i++){
-
-            if(zombieGroup[i].isTouching(bulletGroup)){
-            zombieGroup[i].distory()
-            bulletGroup.destoryEach()
-            explosionSound.play();
-            score = score+2
+        for(var i=0;i<zombieGroup.length;i++){     
+            
+         if(zombieGroup[i].isTouching(bulletGroup)){
+              zombieGroup[i].destroy()
+              bulletGroup.destroyEach()
+              explosionSound.play();
+       
+              score = score+2
             }
 
         }
     }
     
     if(zombieGroup.isTouching(player)){
+        lose.play()
         for(var i=0; i < zombieGroup.length; i++){
-if (zombieGroup [i].isTouching(player)){
+if (zombieGroup[i].isTouching(player)){
     zombieGroup[i].destroy();
     life=life-1
 }
@@ -121,12 +128,12 @@ if (zombieGroup [i].isTouching(player)){
 drawSprites()
 textSize(25)
 fill("white")
-text("Bullets=+bullets,displayWidth-210,displayHeight/2-250")
-text("Score =+ score,displayWidth-200,displayHeight/2-220")
-text("Lives =+ life,displayWidth-200,displayHeight/2-280")
+text("Bullets="+bullets,displayWidth-210,displayHeight/2-250)
+text("Score ="+ score,displayWidth-200,displayHeight/2-220)
+text("Lives ="+ life,displayWidth-200,displayHeight/2-280)
 
 
-if(gameState==="lost"){
+if(gameState=="lost"){
     textSize(100)
     fill("red")
   text("You Lost ",400,400)
@@ -157,9 +164,9 @@ else if(gameState == "bullet"){
 
 function zombies(){
     if(frameCount%60===0){
-        zombie=createSprite(random(300,1000),random(100,800),10,10)
+        zombie=createSprite(random(100,1000),random(100,800),10,10)
         zombie.addImage(zombieImg)
-        zombie.x+=10
+        //zombie.x+=10
         zombieGroup.add(zombie)
         zombie.scale=0.3
         zombie.velocityX=-4
