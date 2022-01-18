@@ -25,7 +25,7 @@ function setup(){
         player.addImage(shooter1)
         
         bg.scale=1
-        player.scale=0.6
+        player.scale=0.3
         zombieGroup=new Group()
         bulletGroup=new Group()
       heart1=createSprite(displayWidth-250,50,20,20)
@@ -66,6 +66,7 @@ heart2.visible=false
         }
         if(life===0){
             gameState="lost"
+            heart1.visible=false
             lose.play();
         }
         if(score===100){
@@ -89,9 +90,11 @@ heart2.visible=false
         player.y-=15
     }
     if(keyWentDown("space")){
-        bullet=createSprite(displayWidth-800,player.y-50,10,10);
-        bullet.velocityX=+10
+        bullet=createSprite(displayWidth-1150,player.y-30,20,10);
+        bullet.velocityX=+20
         bulletGroup.add(bullet)
+        player.depth = bullet.depth
+        player.depth = player.depth+2
         bullets=bullets-1
         explosion.play();
     }
@@ -105,7 +108,7 @@ heart2.visible=false
          if(zombieGroup[i].isTouching(bulletGroup)){
               zombieGroup[i].destroy()
               bulletGroup.destroyEach()
-              explosionSound.play();
+              explosion.play();
        
               score = score+2
             }
@@ -168,11 +171,11 @@ function zombies(){
         zombie.addImage(zombieImg)
         //zombie.x+=10
         zombieGroup.add(zombie)
-        zombie.scale=0.3
+        zombie.scale=0.15
         zombie.velocityX=-4
         zombie.lifetime=400
         zombie.debug=true
-        zombie.setCollider("rectangle",0,0,90,90)
+        zombie.setCollider("rectangle",0,0,500,500)
     }
     
 }
